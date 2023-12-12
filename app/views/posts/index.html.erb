@@ -40,7 +40,6 @@
 
     .card-body {
       width: 450px;
-      text-align: center;
     }
 
     .navbar a {
@@ -68,6 +67,9 @@
     #likeButton.liked {
       color: #dc3545;
     }
+    #profile{
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -89,15 +91,24 @@
         <% @posts.each do |post| %>
           <div class="post-card card bg-light">
             <div class="card-body">
-              <p class="card-text"><strong><%= post.user.user_detail.userName %></strong></p>
+              <a href="/userProfile?user_id=<%= post.user.id %>" id="profile">
+                <p class="card-text">
+                  <img src="/assets/user.png" alt="user img" />
+                  <strong><%= post.user.user_detail.userName %></strong>
+                </p>
+              </a>
+
               <p class="card-text"><%= post.caption %></p>
 
-              <% if post.image.attached? %>
-                <%= image_tag post.image, class: "card-img-top", alt: "Post Image" %>
+              <% if post.file.attached? %>
+                <%= image_tag post.file, class: "card-img-top", alt: "Post Image" %>
               <% end %>
-
-              <span class="card-text">Likes: <%= post.likes %><i class="fas fa-heart" id="likeButton" onclick="toggleLike()"></i></span>
-
+              
+              <% if post.likes.present? %>
+                <span class="card-text">Likes: <%= post.likes.count %><i class="fas fa-heart" id="likeButton" onclick="toggleLike()"></i></span>
+              <% else %>
+                <span class="card-text">Likes: <%= post.likes %><i class="fas fa-heart" id="likeButton" onclick="toggleLike()"></i></span>
+              <% end %>
 
               <% if post.comments.present? %>
                 <span class="card-text">Comments: <%= post.comments.count %><img src="/assets/comments.png"></span>
@@ -114,10 +125,6 @@
       <% end %>
     </div>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 

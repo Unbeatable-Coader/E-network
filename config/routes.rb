@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
   root 'home#index'
 
@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   get '/newPost', to: 'posts#new'
   post '/posts', to: 'posts#create'
 
-
+  get '/userProfile', to: 'profile#user_profile'
 
 end

@@ -15,34 +15,13 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-
+    puts " this is file = #{@post.file}"
     if @post.save
       redirect_to posts_path
     else
-        flash[:warning] = @post.errors.full_messages
-        return :new
-
+      flash[:warning] = @post.errors.full_messages
+      return :new
     end
-
-
-    # @user_detail = current_user.user_detail
-    # puts "user detail = #{@user_detail.userName}"
-    # if @user_detail.present?
-    #   @post = Post.build(post_params)
-    #   puts "post detail = #{@post}"
-    #   @post.user = current_user
-
-    #   if @post.save
-    #     redirect_to posts_path
-    #   else
-    #     puts "error #{@post.errors.full_messages}"
-    #     flash[:warning] = @post.errors.full_messages
-    #     render :new
-    #   end
-    # else
-    #   flash[:warning] = "User detail not found for current user"
-    #   redirect_to new_post_path
-    # end
   end
 
 
@@ -70,7 +49,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:caption, :image)
+    params.require(:post).permit(:caption, :file)
   end
 
   def comment_params

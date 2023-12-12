@@ -21,6 +21,13 @@ class ProfileController < ApplicationController
       end
   end
 
+
+  def user_profile
+    @user_detail = UserDetail.find_by(user_id: params[:user_id])
+    puts "user name = #{@user_detail.userName}"
+  end
+
+
   private
 
   def user_detail_params
