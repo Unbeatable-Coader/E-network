@@ -14,4 +14,9 @@ Rails.application.routes.draw do
 
   get '/userProfile', to: 'profile#user_profile'
 
+  get '/edit/user', to: 'profile#edit'
+
+  post '/upload/profile/pic', to: 'profile#profile_pic', as: :upload_profile_pic_user_detail
+
+
 end
