@@ -18,5 +18,6 @@ Rails.application.routes.draw do
 
   post '/upload/profile/pic', to: 'profile#profile_pic', as: :upload_profile_pic_user_detail
 
+  post '/comment', to: 'comment#comment'
 
 end

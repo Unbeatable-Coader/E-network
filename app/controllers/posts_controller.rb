@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :like, :comment]
+  before_action :set_post, only: [:show, :like]
 
   def index
     @posts = Post.all
@@ -15,7 +15,6 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    puts " this is file = #{@post.file}"
     if @post.save
       redirect_to posts_path
     else
@@ -31,16 +30,7 @@ class PostsController < ApplicationController
     redirect_to posts_path
   end
 
-  def comment
-    comment = @post.comments.build(comment_params)
-    comment.user = current_user
 
-    if comment.save
-      redirect_to posts_path
-    else
-      redirect_to posts_path, alert: "Comment could not be saved."
-    end
-  end
 
   private
 
@@ -52,7 +42,4 @@ class PostsController < ApplicationController
     params.require(:post).permit(:caption, :file)
   end
 
-  def comment_params
-    params.require(:comment).permit(:content)
-  end
 end
