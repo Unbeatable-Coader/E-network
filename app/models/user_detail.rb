@@ -1,5 +1,6 @@
 class UserDetail < ApplicationRecord
-  has_many :post
   belongs_to :user
-  belongs_to :post
+
+  has_one_attached :image
+  attribute :image, :string
 end

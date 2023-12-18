@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_one_attached :image
+  has_one_attached :file
+  attribute :file, :string
 
-  validates :caption, presence: true
+  validates :caption, :file, presence: true
 end

@@ -21,9 +21,27 @@ class ProfileController < ApplicationController
       end
   end
 
+
+  def user_profile
+    @user_detail = UserDetail.find_by(user_id: params[:user_id])
+    @user = User.find_by(id: params[:user_id])
+    puts "user name = #{@user.posts}"
+  end
+
+  def edit
+
+  end
+
+  def profile_pic
+    @pic = params[:profile_pic]
+    @profile_pic = UserDetail.update(profile_pic: @pic)
+  end
+
+
   private
 
   def user_detail_params
     params.require(:user_detail).permit(:name, :userName, :DOB, :email, :gender, :mobile)
   end
+
 end
