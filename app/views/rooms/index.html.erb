@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    .col-md-12{
+      height: 0px;
+    }
+    .col-md-2{
+      border: 2px solid black;
+    }
+    </style>
+
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-md-2">
+        <h5> Hi <%= current_user.user_detail.userName %> </h5>
+        <h4> Users </h4>
+        <div>
+          <%= turbo_stream_from "users" %>
+          <div id="users">
+            <%= render @users %>
+          </div>
+        </div>
+        <h4> Rooms </h4>
+        <%= render partial: "layouts/new_room_form" %>
+        <div>
+          <%= turbo_stream_from "rooms" %>
+          <div id="rooms">
+            <%= render @rooms %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 bg-dark text-light">
+        <% if @single_room %>
+          <h4 class="text-center"> <%= @single_room.name %> </h4>
+        <% end %>
+      </div>
+      <div class="col-md-12 bg-dark">
+        
+      </div>
+    </div>
+  </body>
+</html>
+
+

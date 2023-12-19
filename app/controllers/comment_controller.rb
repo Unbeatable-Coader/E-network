@@ -3,10 +3,13 @@ class CommentController < ApplicationController
 
   def comment
     puts "after entering comment function"
-    @post = Post.find_by(id: params[:post_id])
-    puts "post = #{@post}"
+    id = params[:post_id]
     @comment = Comment.new(comment_params)
-    @comment.post_id = @post
+    @comment.post_id =@comment.post_id
+    puts "id = #{id}"
+    @post = Post.find_by(id: id)
+    puts "post = #{@post}"
+    puts "comment post = #{@comment.post_id}"
     @comment.user = current_user
     if @comment.save
       redirect_to posts_path
@@ -19,7 +22,7 @@ class CommentController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:comment)
+    params.require(:comment).permit(:comment, :post_id)
   end
 
 
