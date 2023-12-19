@@ -1,3 +1,11 @@
+<% if flash.any? %>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-<%= type %> text-center">
+    <%= msg %>
+  </div>
+<% end %>
+<% end %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,22 +62,48 @@
     .navbar a:hover {
       background-color: #e9ecef;
     }
-
-    #likeButton {
-      font-size: 20px;
-      cursor: pointer;
-      color: #FFC5C5;  
-      border-radius: 50%;
-      padding: 5px;
+    .fas{
       cursor: pointer;
     }
-
-    #likeButton.liked {
+    .liked {
       color: #dc3545;
+    }
+    #comments{
+     padding-left: 20px;
+    }
+    #comments{
+      cursor: pointer;
+    }
+    .card-text{
+      padding-left: 10px;
     }
     #profile{
       text-decoration: none;
     }
+
+    .comments{
+    font-size: 20px;
+    font-weight:bold;
+    background-color: #F5F7F8;
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    height: 200px;
+    width: 420px;
+    
+    z-index: 9;
+    }
+    textarea{
+    font-size: 20px;
+    border: 2px solid white;
+    height: 120px;
+    width: 420px;
+    }
+    .post{
+      border-radius: 10px;
+      float: right;
+    }
+    
   </style>
 </head>
 
@@ -105,16 +139,35 @@
               <% end %>
               
               <% if post.likes.present? %>
-                <span class="card-text">Likes: <%= post.likes.count %><i class="fas fa-heart" id="likeButton" onclick="toggleLike()"></i></span>
+                <span class="card-text">Likes: <%= post.likes.count %><i class="fas fa-heart" id="likeButton_<%= post.id %>" onclick="toggleLike(<%= post.id %>)"></i></span>
               <% else %>
-                <span class="card-text">Likes: <%= post.likes %><i class="fas fa-heart" id="likeButton" onclick="toggleLike()"></i></span>
+                <span class="card-text">Likes: <%= post.likes %><i class="fas fa-heart" id="likeButton_<%= post.id %>" onclick="toggleLike(<%= post.id %>)"></i></span>
               <% end %>
 
               <% if post.comments.present? %>
-                <span class="card-text">Comments: <%= post.comments.count %><img src="/assets/comments.png"></span>
+                <span class="card-text" id="comments">Comments: <%= post.comments.count %><img src="/assets/comments.png" id="commentButton_<%= post.id %>" onclick="toggleComment()"></span>
               <% else %>
-                <span class="card-text">Comments: <%= post.comments %><img src="/assets/comments.png"></span>
+                <span class="card-text" id="comments">Comments:<img src="/assets/comments.png" id="commentButton_<%= post.id %>" onclick="toggleComment()"></span>
               <% end %>
+
+
+              <div class="comments" id="myform">
+                <%= form_with(model: @comment, url: comment_path(post), local: true) do |form| %>
+                  <div>
+                    <p class="card-text"><%= post.caption %></p>
+                  </div>
+                  <div>
+                    <%= form.text_area :comment, name: 'comment[comment]', placeholder: "Comment on this post..." %>
+                  </div>
+                  <div class="icons">
+                    <%= form.submit "Post", class: "btn btn-primary post" %>
+                  </div>
+                  <button type="button" class="btn btn-danger cancel" onclick="closeComment()">Close</button>
+                <% end %>
+              </div>
+
+
+
             </div>
           </div>
         <% end %>
@@ -125,12 +178,22 @@
       <% end %>
     </div>
   </div>
+
+    <script>
+        function toggleLike(postId) {
+          var likeButton = document.getElementById('likeButton_' + postId);
+          likeButton.classList.toggle('liked');
+        }
+
+        function toggleComment(){
+          document.getElementById("myform").style.display = "block";
+          var commentButton = document.getElementById('commentButton_' + postId);
+
+        }
+
+        function closeComment(){
+          document.getElementById("myform").style.display = "none";
+        }
+    </script>
 </body>
 </html>
-
-<script>
-    function toggleLike() {
-      var likeButton = document.getElementById('likeButton');
-      likeButton.classList.toggle('liked');
-    }
-  </script>
