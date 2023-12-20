@@ -66,19 +66,38 @@
             color: #007bff;
             cursor: pointer;
         }
+        .profile-pic-container {
+            position: relative;
+        }
+        .upload-label {
+            cursor: pointer;
+            display: block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
     </style>
 </head>
 <body>
 
-<div class="profile-container">
+    <div class="profile-container">
+        <div class="profile-pic-container text-center mb-4">
     <% if @user_detail.profile_pic.present? %>
-        <img class="profile-pic" src="<%= @user_detail.profile_pic %>" alt="Profile Photo" width="150" height="150">
+        <img class="profile-pic rounded-circle" src="<%= @user_detail.profile_pic %>" alt="Profile Photo" width="150" height="150">
     <% else %>
-        <%= form_with(model: @user_detail, url: upload_profile_pic_user_detail_path(@user_detail), method: :post, local: true, multipart: true) do |form| %>
-            <%= form.file_field :profile_pic %>
-            <%= form.submit 'Upload Profile Picture' %>
+        <%= form_with(model: @user_detail, url: upload_profile_pic_user_detail_path(@user_detail), method: :post, local: true, multipart: true, html: { class: "upload-form" }) do |form| %>
+        <label for="profile-pic-input" class="upload-label">
+            <i class="fas fa-camera"></i> Upload Profile Picture
+        </label>
+        <%= form.file_field :profile_pic, id: "profile-pic-input", class: "d-none" %>
+        <%= form.submit 'Upload', class: "btn btn-primary btn-sm mt-2" %>
         <% end %>
     <% end %>
+    </div>
+
 
 
     <h2><%= @user_detail.userName %></h2>

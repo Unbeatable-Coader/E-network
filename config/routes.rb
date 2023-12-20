@@ -20,8 +20,14 @@ Rails.application.routes.draw do
 
   post '/comment', to: 'comment#comment'
 
+  get '/currentProfile', to: 'profile#currentUserProfile'
+
   resources :rooms
   resources :users
   get '/chats', to: 'rooms#index'
+
+  resources :rooms do
+    resources :messages
+  end
 
 end
