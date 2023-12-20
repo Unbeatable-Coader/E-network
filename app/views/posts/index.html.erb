@@ -109,16 +109,16 @@
 
 <body>
   <nav class="navbar">
-    <a href="#">Home</a>
+    <a href="/">Home</a>
     <a href="#">Explore</a>
     <a href="#">Notifications</a>
-    <a href="#">Messages</a>
+    <a href="/chats">Messages</a>
     <a href="#">Profile</a>
     <a href="#">More</a>
   </nav>
 
   <div class="main-content">
-    <%= link_to "New Post", newPost_path, class: "btn btn-primary mb-4" %>
+    <%= link_to   "New Post", newPost_path, class: "btn btn-primary mb-4" %>
 
     <div class="post-container">
       <% if @posts.present? %>
@@ -152,11 +152,12 @@
 
 
               <div class="comments" id="myform">
-                <%= form_with(model: @comment, url: comment_path(post), local: true) do |form| %>
+                <%= form_with(model: Comment.new, url: comment_path, local: true, method: :post) do |form| %>
                   <div>
                     <p class="card-text"><%= post.caption %></p>
                   </div>
                   <div>
+                    <%= form.hidden_field :post_id, value: post.id %>
                     <%= form.text_area :comment, name: 'comment[comment]', placeholder: "Comment on this post..." %>
                   </div>
                   <div class="icons">
