@@ -28,6 +28,10 @@ class ProfileController < ApplicationController
     puts "user name = #{@user.posts}"
   end
 
+  def currentUserProfile
+    @current_user = current_user
+  end
+
   def edit
 
   end

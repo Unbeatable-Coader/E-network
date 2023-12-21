@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+
+  <style>
+    body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-pic {
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .edit-profile-link {
+            margin-top: 10px;
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        h3 {
+            margin-top: 20px;
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+        }
+        .upload-form {
+            margin-top: 20px;
+        }
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .btn {
+            border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .upload-btn-wrapper .btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .profile-pic-container {
+            position: relative;
+        }
+        .upload-label {
+            cursor: pointer;
+            display: block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+  </style>
+  </head>
+
+  <body>
+
+    <div class="profile-container">
+        <div class="profile-pic-container text-center mb-4">
+    <% if @current_user.user_detail.profile_pic.present? %>
+        <img class="profile-pic rounded-circle" src="<%= @current_user.user_detail.profile_pic %>" alt="Profile Photo" width="150" height="150">
+    <% else %>
+        <%= form_with(model: @user_detail, url: upload_profile_pic_user_detail_path(@user_detail), method: :post, local: true, multipart: true, html: { class: "upload-form" }) do |form| %>
+        <label for="profile-pic-input" class="upload-label">
+            <i class="fas fa-camera"></i> Upload Profile Picture
+        </label>
+        <%= form.file_field :profile_pic, id: "profile-pic-input", class: "d-none" %>
+        <%= form.submit 'Upload', class: "btn btn-primary btn-sm mt-2" %>
+        <% end %>
+    <% end %>
+    </div>
+    
+
+
+    <h2><%= @current_user.user_detail.userName %></h2>
+
+    <%= link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link' %>
+
+    <p><strong>Name:</strong> <%= @current_user.user_detail.name %></p>
+
+    <div class="stats">
+        <% if current_user.posts.present? %>
+            <p><strong>Posts:</strong> <%= @current_user.posts.count %></p>
+        <% end  %>
+
+        <% if current_user.followers.present? %>
+            <p><strong>Followers:</strong> <%= current_user.followers.count %></p>
+        <% end %>
+    </div>
+
+    <h3>Posts</h3>
+
+
+    <h3>Followers</h3>
+  </body>
+</html>
