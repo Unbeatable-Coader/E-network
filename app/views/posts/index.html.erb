@@ -30,9 +30,22 @@
     z-index: 1;
     overflow-y: auto;
   }
+  .navbar2 {
+    width: 400px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0; 
+    right: 0; 
+    z-index: 1;
+    overflow-y: auto;
+  }
     .main-content {
       flex-grow: 1;
-      padding: 20px;
+      padding: 20px 20px 20px 80px;
       margin-left: 250px;
     }
 
@@ -57,8 +70,19 @@
       color: #000;
       text-decoration: none;
     }
+    .navbar2 a {
+      font-size: 20px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 0px;
+      color: #000;
+      text-decoration: none;
+    }
 
     .navbar a:hover {
+      background-color: #e9ecef;
+    }
+    .navbar2 a:hover {
       background-color: #e9ecef;
     }
     .fas{
@@ -89,7 +113,6 @@
     bottom: 100px;
     height: 200px;
     width: 420px;
-    
     z-index: 9;
     }
     textarea{
@@ -102,22 +125,39 @@
       border-radius: 10px;
       float: right;
     }
-    
+    .create-post {
+    font-size: 44px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 57px;
+    height: 57px;
+    line-height: 34px;
+    text-decoration: none;
+  }
+  .newpost {
+    display: flex;
+    padding-left: 250px;
+  }
+  .suggestedFollows{
+    padding-top: 20px;
+    list-style-type: none;
+  }
+  
   </style>
 </head>
 
 <body>
   <nav class="navbar">
     <a href="/">Home</a>
-    <a href="#">Explore</a>
-    <a href="#">Notifications</a>
+    <a href="/explore">Explore</a>
+    <a href="/notifications">Notifications</a>
     <a href="/chats">Messages</a>
     <a href="/currentProfile">Profile</a>
     <a href="#">More</a>
   </nav>
 
   <div class="main-content">
-    <%= link_to   "New Post", newPost_path, class: "btn btn-primary mb-4" %>
+   <div class="newpost"><%= link_to "+", new_post_path, class: "btn btn-primary mb-4 create-post" %></div>
 
     <div class="post-container">
       <% if @posts.present? %>
@@ -165,9 +205,6 @@
                   <button type="button" class="btn btn-danger cancel" onclick="closeComment()">Close</button>
                 <% end %>
               </div>
-
-
-
             </div>
           </div>
         <% end %>
@@ -179,11 +216,126 @@
     </div>
   </div>
 
+  <nav class="navbar2">
+  <ul style="list-style-type: none; padding: 10px;">
+      <li>
+        <img src="/assets/user.png" alt="user2 img" />
+        <%= current_user.user_detail.userName %>
+        <button>Follow</button>
+      </li>
+    </ul>
+
+
+    <div class="trending-hashtags">
+    <h2>Trending Hashtags</h2>
+    <ul>
+      <li>#Travel</li>
+      <li>#Foodie</li>
+      <li>#Fashion</li>
+    </ul>
+  </div></br>
+
+  <div class="who-to-follow">
+    <h3>Suggestion to follow</h3>
+    <ul>
+      <li class="suggestedFollows">
+        <img src="/assets/user.png" alt="user2 img" />
+        <span>User123</span>
+        <button>Follow</button>
+      </li>
+      <li class="suggestedFollows">
+        <img src="/assets/user.png" alt="user2 img" />
+        <span>User123</span>
+        <button>Follow</button>
+      </li>
+      <li class="suggestedFollows">
+        <img src="/assets/user.png" alt="user2 img" />
+        <span>User123</span>
+        <button>Follow</button>
+      </li>
+      <li class="suggestedFollows">
+        <img src="/assets/user.png" alt="user2 img" />
+        <span>User123</span>
+        <button>Follow</button>
+      </li>
+      <li class="suggestedFollows">
+        <img src="/assets/user.png" alt="user2 img" />
+        <span>User123</span>
+        <button>Follow</button>
+      </li>
+    </ul>
+  </div>
+  </nav>
+
+
+
     <script>
         function toggleLike(postId) {
           var likeButton = document.getElementById('likeButton_' + postId);
+
+          if (likeButton.classList.contains('liked')) {
+
+            unlikePost(postId);
+          } else {
+          
+            likePost(postId);
+          }
+
           likeButton.classList.toggle('liked');
         }
+        
+        function likePost(postId) {
+          
+          fetch(`/posts/${postId}/like`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              
+              return response.json();
+            })
+            .then(data => {
+              
+              console.log('Like successful:', data);
+            })
+            .catch(error => {
+              console.error('Error during like:', error);
+            });
+        }
+
+        function unlikePost(postId) {
+          
+          fetch(`/posts/${postId}/unlike`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              
+              return response.json();
+            })
+            .then(data => {
+              
+              console.log('Unlike successful:', data);
+            })
+            .catch(error => {
+              console.error('Error during unlike:', error);
+            });
+        }
+
+
+
 
         function toggleComment(){
           document.getElementById("myform").style.display = "block";

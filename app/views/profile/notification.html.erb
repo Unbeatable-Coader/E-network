@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Page</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+
+        .navbar {
+            width: 250px;
+            height: 100vh;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+        .navbar a {
+        font-size: 20px;
+        font-weight: 800;
+        display: block;
+        margin-bottom: 0px;
+        color: #000;
+        text-decoration: none;
+        }
+
+        .navbar a:hover {
+        background-color: #e9ecef;
+        }
+
+
+        .user-notifications {
+            flex-grow: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 20px 0px 250px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+    <a href="/">Home</a>
+    <a href="#">Explore</a>
+    <a href="/notifications">Notifications</a>
+    <a href="/chats">Messages</a>
+    <a href="/currentProfile">Profile</a>
+    <a href="#">More</a>
+  </nav>
+    
+
+        <div class="user-notifications">
+            <h2>Notifications</h2>
+            <ul>
+                <li>New Follower:</li>
+                <li>New Like on Your Post</li>
+                
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
+

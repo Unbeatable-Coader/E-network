@@ -33,7 +33,12 @@ class ProfileController < ApplicationController
   end
 
   def edit
-
+    @edit = UserDetail.update(edit_params)
+    if @edit.save
+      redirect_to userProfile_path
+    else
+      puts "errors = #{@edit.errors.full_messages}"
+    end
   end
 
   def profile_pic
@@ -41,6 +46,9 @@ class ProfileController < ApplicationController
     @profile_pic = UserDetail.update(profile_pic: @pic)
   end
 
+  def notification
+    
+  end
 
   private
 
@@ -48,4 +56,7 @@ class ProfileController < ApplicationController
     params.require(:user_detail).permit(:name, :userName, :DOB, :email, :gender, :mobile)
   end
 
+  def edit_params
+    params.permit(:username, :name, :gender)
+  end
 end

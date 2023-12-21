@@ -101,8 +101,11 @@
 
 
     <h2><%= @user_detail.userName %></h2>
-
-    <%= link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link' %>
+    <% if current_user.id == @user.id %>
+        <%= link_to 'Edit Profile', edit_user_path(@user), class: 'edit-profile-link' %>
+    <% else %>
+    
+    <% end %>
 
     <p><strong>Name:</strong> <%= @user_detail.name %></p>
 

@@ -1,1 +1,3 @@
-<div> <%= link_to user.user_detail.name, user %> </div>
+<% if user.user_detail.present?%>
+    <div> <%= link_to user.user_detail.name, user %> </div>
+<% end %>
