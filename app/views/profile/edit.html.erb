@@ -83,11 +83,6 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name"  required>
 
-
-        <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio" rows="4" required>{{ bio }}</textarea>
-
-
         <label for="gender">Gender:</label>
         <select id="gender" name="gender" required>
             <option value="male" {% if gender == 'male' %}selected{% endif %}>Male</option>

@@ -25,12 +25,21 @@ class PostsController < ApplicationController
 
 
   def like
-    @post.likes += 1
-    @post.save
+    puts "inside like function"
+    if current_user.likes.exists?(post_id: @post.id)
+      flash[:notice] = "You have already liked this post."
+    else
+      @post.likes.create(user: current_user)
+      flash[:notice] = "You liked the post."
+    end
+
     redirect_to posts_path
   end
 
 
+  def explore
+    @posts = Post.all
+  end
 
   private
 

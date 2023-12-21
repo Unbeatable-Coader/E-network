@@ -1,4 +1,20 @@
-<%= form_with(model: Room.new, remote: true, class: "d-flex" ) do |f| %>
-  <%= f.text_field :name, class: "form-control", placeholder: "Enter room name", autocomplete: 'off' %>
-  <%= f.submit "Create Room", class: "btn btn-primary" %>
-<% end %>
+<!DOCTYPE html>
+<html>
+  <head>
+    
+
+  <style>
+    .creatRoom{
+      width: 105px;
+    }
+  </style>
+  </head>
+
+  <body>
+
+  <%= form_with(model: Room.new, remote: true, class: "d-flex" ) do |f| %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Enter room name", autocomplete: 'off' %>
+    <%= f.submit "Create Room", class: "btn btn-primary creatRoom" %>
+  <% end %>
+  </body>
+</html>

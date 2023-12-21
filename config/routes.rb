@@ -22,12 +22,24 @@ Rails.application.routes.draw do
 
   get '/currentProfile', to: 'profile#currentUserProfile'
 
+  get '/notifications', to: 'profile#notification'
+
+  get '/explore', to: 'posts#explore'
+
+  
   resources :rooms
   resources :users
   get '/chats', to: 'rooms#index'
 
   resources :rooms do
     resources :messages
+  end
+
+  resources :posts do
+    member do
+      post 'like'
+      delete 'unlike'
+    end
   end
 
 end
